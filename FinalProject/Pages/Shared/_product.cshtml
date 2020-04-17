@@ -1,10 +1,10 @@
 ﻿@model Product
 
-<form id="productform" asp-page="/Basket/Index" class="item-medium-1" method="post">
+<form id="form @Model.Id" asp-page="/Basket/Index" class="item-medium-1" method="post">
     @if (Model.Sale != 0)
     {<div class="item-medium-1__alert">Sale</div>}
     <div class="item-medium-1__image image" style="background-image: url(@Model.PictureUrl)">
-        <a class="item-medium-1__action" href="#" onclick="document.getElementById('productform').submit();">[ ADD TO BASKET ]</a>
+        <a  id="formsubmit" class="item-medium-1__action" href="#" onclick="document.getElementById('form @Model.Id').submit();">[ ADD TO BASKET ]</a>
     </div>
 
     <a href="#">
@@ -34,4 +34,5 @@
     <input type="hidden" asp-for="@Model.PictureUrl" name="pictureUrl" />
     <input type="hidden" asp-for="@Model.Discription" name="discription" />
     <input type="hidden" asp-for="@Model.Price" name="price" />
+    <input type="hidden" asp-for="@Model.Sale" name="sale" />
 </form>

@@ -37,10 +37,10 @@ namespace FinalProject.Data
             return new List<Product>()
             {
                 new Product("Blue Sweatshirt", "Small Blue Sweatshirt", 200, 0.6m, "img/products/product-grey-1.jpg"),
-                new Product("Red Sweatshirt", "Red Sweatshirt", 200, 0.6m, "img/products/product-grey-1.jpg"),
+                new Product("Red Sweatshirt", "Red Sweatshirt", 200, 0, "img/products/product-grey-1.jpg"),
                 new Product("Blue Shirt", "Blue Shirt", 150, 0.6m,"img/products/product-grey-1.jpg"),
-                new Product("White Shirt", "Medium Shirt", 300, 0.6m,"img/products/product-grey-1.jpg"),
-                new Product("Heels", "Heels", 400, 0.6m,"img/products/product-grey-1.jpg"),
+                new Product("White Shirt", "Medium Shirt", 300, 0,"img/products/product-grey-1.jpg"),
+                new Product("Heels", "Heels", 400, 0,"img/products/product-grey-1.jpg"),
                 new Product("Training Suit", "Extra Large Training Suit", 350, 0.6m,"img/products/product-grey-1.jpg"),
             };
         }

@@ -46,7 +46,6 @@ namespace FinalProject.Pages.Basket
             var basket = _basketRepository.GetById(BasketModel.Id);
             basket.AddItem(product.Id, product.Price);
             _basketRepository.Update(basket);
-            SetBasketModel();
             return RedirectToPage();
 
         }
