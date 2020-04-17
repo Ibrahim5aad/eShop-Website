@@ -7,6 +7,7 @@ namespace FinalProject.Models.Entities
 {
     public class Basket
     {
+        public int Id { get; set; }
         public string BuyerId { get; private set; }
 
         private readonly List<OrderItem> _items = new List<OrderItem>();
