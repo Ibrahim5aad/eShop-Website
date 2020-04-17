@@ -9,7 +9,7 @@ namespace FinalProject.Models.ViewModels
     public class BasketViewModel
     {
         public int Id { get; set; }
-        public List<OrderItem> Items { get; set; } = new List<OrderItem>();
+        public List<BasketItem> Items { get; set; } = new List<BasketItem>();
         public string BuyerId { get; set; }
 
     }

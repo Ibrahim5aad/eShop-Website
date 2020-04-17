@@ -13,17 +13,18 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 
+
 namespace FinalProject.Pages.Basket
 {
     //[AllowAnonymous]
     public class IndexModel : PageModel
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly BasketRepository _basketRepository;
+        private readonly IBasketRepository _basketRepository;
         private string _username = null;
 
 
-        public IndexModel(SignInManager<ApplicationUser> signInManager, BasketRepository basketRepository)
+        public IndexModel(SignInManager<ApplicationUser> signInManager, IBasketRepository basketRepository)
         {
             _signInManager = signInManager;
             _basketRepository = basketRepository;
@@ -46,7 +47,7 @@ namespace FinalProject.Pages.Basket
             basket.AddItem(product.Id, product.Price);
             _basketRepository.Update(basket);
             SetBasketModel();
-            return RedirectToPage()
+            return RedirectToPage();
 
         }
         private void SetBasketModel()
@@ -78,7 +79,10 @@ namespace FinalProject.Pages.Basket
 
         private BasketViewModel GetOrCreateBasketForUser(string userId)
         {
-            var basket = _basketRepository.GetAll().Where(basket => basket.BuyerId == userId) as Models.Entities.Basket;
+            var baskets = _basketRepository.GetAll()
+                .Include(b => b.Items)
+                .ThenInclude(item => item.Product);
+            var basket = baskets.FirstOrDefault(basket => basket.BuyerId == userId);
 
             if (basket == null)
             {
@@ -89,7 +93,7 @@ namespace FinalProject.Pages.Basket
                 {
                     BuyerId = basket.BuyerId,
                     Id = basket.Id,
-                    Items = new List<OrderItem>()
+                    Items = new List<BasketItem>()
                 };
             }
             return new BasketViewModel()

@@ -58,6 +58,7 @@ namespace FinalProject
             services.AddRazorPages();
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IBasketRepository, BasketRepository>();
             services.AddSingleton<IConfigureOptions<CookieAuthenticationOptions>, ConfigureCookieOptions>();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
             

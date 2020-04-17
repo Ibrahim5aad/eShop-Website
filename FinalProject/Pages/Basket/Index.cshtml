@@ -4,3 +4,39 @@
     ViewData["Title"] = "Basket";
 }
 <h1></h1>
+
+
+<table class="table table-striped">
+
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col"></th>
+            <th scope="col">Name</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Total Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (BasketItem item in Model.BasketModel.Items)
+        {
+            if (item != null)
+            {
+                <tr>
+                    @Html.HiddenFor(m => item.Id)
+                    <td>
+                        <img class="image image--small" src="@item.Product.PictureUrl" />
+                    </td>
+                    <td>@item.Product.Name </td>
+                    <td>@Html.EditorFor(m => item.Quantity) </td>
+                    <td>@item.TotalPrice() </td>
+                    @*<td>
+                        <a href="/Employees/details/@item.Id" class="btn btn-outline-info"> <i class="fas fa-user"></i> </a>
+                        <a href="/Employees/edit/@item.Id" class="btn btn-outline-dark"> <i class="fas fa-edit"></i> </a>
+                        <button class="btn btn-outline-danger" onclick="confirmDelete(@item.Id)"> <i class="far fa-trash-alt"></i> </button>
+                    </td>*@
+                </tr>
+            }
+        }
+    </tbody>
+
+</table>

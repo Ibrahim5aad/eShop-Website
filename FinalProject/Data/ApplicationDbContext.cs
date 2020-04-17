@@ -20,5 +20,6 @@ namespace FinalProject.Data
         public DbSet<Basket> Baskets { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<BasketItem> BasketItems { get; set; }
     }
 }

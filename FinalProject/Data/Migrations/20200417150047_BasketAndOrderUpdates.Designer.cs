@@ -4,14 +4,16 @@ using FinalProject.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FinalProject.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200417150047_BasketAndOrderUpdates")]
+    partial class BasketAndOrderUpdates
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -32,34 +34,6 @@ namespace FinalProject.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Baskets");
-                });
-
-            modelBuilder.Entity("FinalProject.Models.Entities.BasketItem", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("BasketId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BasketId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("BasketItems");
                 });
 
             modelBuilder.Entity("FinalProject.Models.Entities.Order", b =>
@@ -91,6 +65,9 @@ namespace FinalProject.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("BasketId")
+                        .HasColumnType("int");
+
                     b.Property<int>("OrderId")
                         .HasColumnType("int");
 
@@ -107,6 +84,8 @@ namespace FinalProject.Data.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("BasketId");
 
                     b.HasIndex("OrderId");
 
@@ -338,21 +317,12 @@ namespace FinalProject.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("FinalProject.Models.Entities.BasketItem", b =>
+            modelBuilder.Entity("FinalProject.Models.Entities.OrderItem", b =>
                 {
                     b.HasOne("FinalProject.Models.Entities.Basket", null)
                         .WithMany("Items")
                         .HasForeignKey("BasketId");
 
-                    b.HasOne("FinalProject.Models.Entities.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("FinalProject.Models.Entities.OrderItem", b =>
-                {
                     b.HasOne("FinalProject.Models.Entities.Order", "Order")
                         .WithMany("Items")
                         .HasForeignKey("OrderId")
