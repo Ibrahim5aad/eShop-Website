@@ -49,6 +49,23 @@ namespace FinalProject.Pages.Basket
             return RedirectToPage();
 
         }
+
+        public void OnPostUpdate(Dictionary<string, int> items)
+        {
+            SetBasketModel();
+            var basket = _basketRepository.GetById(BasketModel.Id);
+            foreach (var item in basket.Items)
+            {
+                if (items.TryGetValue(item.Id.ToString(), out var quantity))
+                {
+                    item.SetNewQuantity(quantity);
+                }
+            }
+            basket.RemoveEmptyItems();
+            _basketRepository.Update(basket);
+            SetBasketModel();
+        }
+
         private void SetBasketModel()
         {
             if (_signInManager.IsSignedIn(HttpContext.User))

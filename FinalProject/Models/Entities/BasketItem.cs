@@ -27,7 +27,7 @@ namespace FinalProject.Models.Entities
             Price = price;
         }
 
-        public void AddQuantity(int quantity)
+        public void IncreaseQuantity(int quantity)
         {
             Quantity += quantity;
         }

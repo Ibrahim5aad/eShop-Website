@@ -26,7 +26,7 @@ namespace FinalProject.Models.Entities
                 return;
             }
             var existingItem = Items.FirstOrDefault(i => i.ProductId == ProductId);
-            existingItem.AddQuantity(quantity);
+            existingItem.IncreaseQuantity(quantity);
         }
 
         public void RemoveEmptyItems()

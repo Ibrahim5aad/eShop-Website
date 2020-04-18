@@ -3,43 +3,67 @@
 @{
     ViewData["Title"] = "Basket";
 }
-<h1>Your Basket:</h1>
+<h1>Your Basket: </h1>
+<h2>Total: $ @Model.BasketModel.Total().ToString("N2") </h2>
+<br />
+<div class="table container">
+    @if (Model.BasketModel.Items.Any())
+    {
+    <form method="post" class="col">
+        <button asp-page="/Index" class="btn btn-primary text-white">Continue Shopping..</button>
+        <article class="esh-basket-titles display-4 row">
+            <section class="col-3">Product</section>
+            <section class="col-3">Price</section>
+            <section class="col-3">Quantity</section>
+            <section class="col-3">Cost</section>
+        </article>
 
 
-@if (Model.BasketModel.Items.Any())
-{
-    <form method="post">
-        <div class="container">
-            <table class="table table-striped">
+        @for (int i = 0; i < Model.BasketModel.Items.Count; i++)
+        {
+            var item = Model.BasketModel.Items[i];
+            if (item != null)
+            {
+                <article class="esh-basket-item row">
+                    <section class=" col-3 hidden-lg-down">
+                        <img class="image w-50 img-thumbnail" src="@item.Product.PictureUrl" />
+                        @item.Product.Name
+                    </section>
+                    <section style="padding-top: 5%;" class="col-3">$ @item.Price</section>
+                    <section style="padding-top: 5%;" class="col-3">
+                        <input type="hidden" name="@("Items[" + i + "].Key")" value="@item.Id" />
+                        <input type="number" width="50" class="form-control" min="0" name="@("Items[" + i + "].Value")" value="@item.Quantity" />
+                    </section>
+                    <section style="padding-top: 5%;" class="col-3">$ @item.TotalPrice()</section>
+                </article>
+            }
+        }
+        <br />
+        <article class="row">
 
-                <thead class="thead-dark">
-                    <tr>
-                        <th scope="col"></th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Quantity</th>
-                        <th scope="col">Total Price</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (BasketItem item in Model.BasketModel.Items)
-                    {
-                        if (item != null)
-                        {
-                            <tr>
-                                @Html.HiddenFor(m => item.Id)
-                                <td>
-                                    <img class="item-small-1__image" src="@item.Product.PictureUrl" />
-                                </td>
-                                <td>@item.Product.Name </td>
-                                <td>@Html.EditorFor(m => item.Quantity) </td>
-                                <td>@item.TotalPrice() </td>
-                            </tr>
-                        }
-                    }
+            <button class="col-1  btn btn-dark "
+                    name="updatebutton" value="" type="submit"
+                    asp-page-handler="Update">
+                Update
+            </button>
 
-                </tbody>
-            </table>
+            <input type="submit" asp-page="Checkout"
+                   class="col-1 btn btn-danger"
+                   value="Checkout" name="action" />
 
-        </div>
+        </article>
+
     </form>
-}
+    }
+
+    else
+    {
+        <h3 class="esh-catalog-items row">
+            Basket is empty.
+        </h3>
+
+        <section class="esh-basket-item">
+            <a asp-page="/Index" class="btn esh-basket-checkout text-white">Continue Shopping..</a>
+        </section>
+    }
+</div>
