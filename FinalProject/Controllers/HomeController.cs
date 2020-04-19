@@ -25,7 +25,6 @@ namespace FinalProject.Controllers
             _productRepository = productRepository;
         }
 
-        [AllowAnonymous]
         public IActionResult Index()
         {
             List<Product> products = _productRepository.GetAll().ToList();
@@ -41,6 +40,12 @@ namespace FinalProject.Controllers
         {
             return View();
         }
+
+        public IActionResult ContactUs()
+        {
+            return View();
+        }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

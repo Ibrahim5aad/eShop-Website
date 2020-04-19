@@ -36,7 +36,7 @@ namespace FinalProject.Pages.Basket
             SetBasketModel();
         }
 
-        public IActionResult OnPost(Product product)
+        public async Task<IActionResult> OnPost(Product product)
         {
             if (product?.Id == null)
             {
