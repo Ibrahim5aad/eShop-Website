@@ -45,7 +45,6 @@ namespace FinalProject
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            ConfigureCookieSettings(services);
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
@@ -62,7 +61,8 @@ namespace FinalProject
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddSingleton<IConfigureOptions<CookieAuthenticationOptions>, ConfigureCookieOptions>();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
-            
+            ConfigureCookieSettings(services);
+
             //Use This to Authorize All Actions
             //services.AddControllers(config =>
             //{

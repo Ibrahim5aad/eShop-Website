@@ -8,6 +8,9 @@ using Microsoft.EntityFrameworkCore;
 using FinalProject.Data;
 using FinalProject.Models.Entities;
 using FinalProject.Core;
+using Microsoft.AspNetCore.Identity;
+using FinalProject.Models.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FinalProject.Controllers
 {
@@ -15,11 +18,13 @@ namespace FinalProject.Controllers
     {
         private readonly IBasketRepository _basketRepository;
         private readonly IOrderRepository _orderRepository;
+        private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public OrdersController(IBasketRepository basketRepository, IOrderRepository orderRepository)
+        public OrdersController(IBasketRepository basketRepository, IOrderRepository orderRepository, SignInManager<ApplicationUser> signInManager)
         {
             _basketRepository = basketRepository;
             _orderRepository = orderRepository;
+            _signInManager = signInManager;
         }
 
         // GET: Orders
@@ -33,6 +38,7 @@ namespace FinalProject.Controllers
         {
             if (id == null)
             {
+
                 return NotFound();
             }
 
@@ -54,7 +60,20 @@ namespace FinalProject.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(string BuyerId, Dictionary<string, int> items)
+        public IActionResult Create(Order order)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            return RedirectToAction("Index", "Home");
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize]
+        public IActionResult CheckoutBasket(string BuyerId, Dictionary<string, int> items)
         {
             if (ModelState.IsValid)
             {
@@ -75,8 +94,10 @@ namespace FinalProject.Controllers
                 {
                     BuyerId = BuyerId,
                     Items = OrderItems,
-                    Status = OrderStatus.Pending
+                    Status = OrderStatus.Pending,
+                    CheckoutDate = DateTime.Now
                 });
+                _orderRepository.Add(order);
                 return View(order);
             }
             return BadRequest();
@@ -89,12 +110,6 @@ namespace FinalProject.Controllers
             {
                 return NotFound();
             }
-
-            //var order = await _context.Orders.FindAsync(id);
-            //if (order == null)
-            //{
-            //    return NotFound();
-            //}
             return View();
         }
 
@@ -109,22 +124,6 @@ namespace FinalProject.Controllers
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    //_context.Update(order);
-                    //await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!OrderExists(order.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
                 return RedirectToAction(nameof(Index));
             }
             return View(order);
@@ -137,14 +136,6 @@ namespace FinalProject.Controllers
             {
                 return NotFound();
             }
-
-            //var order = await _context.Orders
-            //    .FirstOrDefaultAsync(m => m.Id == id);
-            //if (order == null)
-            //{
-            //    return NotFound();
-            //}
-
             return View();// order);
         }
 

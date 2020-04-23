@@ -3,58 +3,58 @@
 @{
     ViewData["Title"] = "Basket";
 }
-<h1>Your Basket: </h1>
-<h2>Total: $ @Model.BasketModel.Total().ToString("N2") </h2>
+<div class="">
+    <h1 class="">Your Basket: </h1>
+    <h2 class="">Total: $ @Model.BasketModel.Total().ToString("N2") </h2>
+</div>
 <br />
 <div class="table container">
     @if (Model.BasketModel.Items.Any())
     {
-    <form asp-action="Create" asp-controller="Orders" method="post" class="col">
-        <button asp-page="/Index" class="btn btn-primary text-white">Continue Shopping..</button>
-        <article class="esh-basket-titles display-4 row">
-            <section class="col-3">Product</section>
-            <section class="col-3">Price</section>
-            <section class="col-3">Quantity</section>
-            <section class="col-3">Cost</section>
-        </article>
+        <form asp-action="CheckoutBasket" asp-controller="Orders" method="post" class="col card">
+            <article class="esh-basket-titles display-4 card-header row">
+                <section class="col-3">Product</section>
+                <section class="col-3">Price</section>
+                <section class="col-3">Quantity</section>
+                <section class="col-3">Cost</section>
+            </article>
 
-        <input type="hidden" name="BuyerId" value="@Model.BasketModel.BuyerId" />
+            <input type="hidden" name="BuyerId" value="@Model.BasketModel.BuyerId" />
 
-        @for (int i = 0; i < Model.BasketModel.Items.Count; i++)
-        {
-            var item = Model.BasketModel.Items[i];
-            if (item != null)
+            @for (int i = 0; i < Model.BasketModel.Items.Count; i++)
             {
-                <article class="esh-basket-item row">
-                    <section class=" col-3 hidden-lg-down">
-                        <img class="image w-50 img-thumbnail" src="@item.Product.PictureUrl" />
-                        @item.Product.Name
-                    </section>
-                    <section style="padding-top: 5%;" class="col-3">$ @item.Price</section>
-                    <section style="padding-top: 5%;" class="col-3">
-                        <input type="hidden" name="@("Items[" + i + "].Key")" value="@item.Id" />
-                        <input type="number" width="50" class="form-control" min="0" name="@("Items[" + i + "].Value")" value="@item.Quantity" />
-                    </section>
-                    <section style="padding-top: 5%;" class="col-3">$ @item.TotalPrice()</section>
-                </article>
+                var item = Model.BasketModel.Items[i];
+                if (item != null)
+                {
+                    <article class="esh-basket-item row">
+                        <section class=" col-3 hidden-lg-down">
+                            <img class="image w-50 img-thumbnail" src="@item.Product.PictureUrl" />
+                            @item.Product.Name
+                        </section>
+                        <section style="padding-top: 5%;" class="col-3">$ @item.Price</section>
+                        <section style="padding-top: 5%;" class="col-3">
+                            <input type="hidden" name="@("Items[" + i + "].Key")" value="@item.Id" />
+                            <input type="number" width="50" class="form-control" min="0" name="@("Items[" + i + "].Value")" value="@item.Quantity" />
+                        </section>
+                        <section style="padding-top: 5%;" class="col-3">$ @item.TotalPrice()</section>
+                    </article>
+                }
             }
-        }
-        <br />
-        <article class="row">
+            <br />
+            <article class="row">
+                <button asp-page="/Index" class="defmargin btn btn-primary text-white">Continue Shopping..</button>
+                <button class="defmargin col-1  btn btn-outline-info"
+                        name="updatebutton" value="" type="submit"
+                        asp-page-handler="Update">
+                    Update
+                </button>
+                <input type="submit"
+                       class="defmargin col-1 btn btn-outline-success"
+                       value="Checkout" name="action" />
 
-            <button class="col-1  btn btn-dark "
-                    name="updatebutton" value="" type="submit"
-                    asp-page-handler="Update">
-                Update
-            </button>
+            </article>
 
-            <input type="submit"
-                   class="col-1 btn btn-danger"
-                   value="Checkout" name="action" />
-
-        </article>
-
-    </form>
+        </form>
     }
 
     else
@@ -68,3 +68,17 @@
         </section>
     }
 </div>
+
+@section Styles{
+    <style>
+        .defmargin {
+            margin: 10px;
+            color: darkslategray;
+        }
+
+            .defmargin:hover {
+               color: white;
+            }
+    </style>
+
+}

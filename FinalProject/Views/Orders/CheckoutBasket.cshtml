@@ -1,0 +1,35 @@
+﻿@model FinalProject.Models.Entities.Order
+
+@{
+    ViewData["Title"] = "Checkout";
+}
+
+<h1>Checkout..</h1>
+
+<hr />
+
+<div class="container row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <input hidden asp-for=@Model.BuyerId class="form-control" />
+            <input hidden asp-for=@Model.Status class="form-control" />
+            
+            <div class="form-group">
+                <label asp-for="CheckoutDate" class="control-label"></label>
+                <input asp-for="CheckoutDate" class="form-control" value="@DateTime.Now" />
+                <span asp-validation-for="CheckoutDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+
