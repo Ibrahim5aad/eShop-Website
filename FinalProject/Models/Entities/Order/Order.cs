@@ -30,5 +30,22 @@ namespace FinalProject.Models.Entities
         public int AddressId { get; set; }
 
         public virtual List<OrderItem> Items { get; set; }
+
+        [NotMapped]
+        public decimal TotalPrice
+        {
+            get
+            {
+                decimal total = 0;
+                if(Items != null)
+                {
+                    foreach (var item in Items)
+                    {
+                        total += item.TotalPrice();
+                    }
+                }
+                return total;
+            }
+        }
     }
 }

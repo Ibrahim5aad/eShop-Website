@@ -28,6 +28,11 @@ namespace FinalProject.Models.Entities
             Quantity = quantity;
             Price = price;
         }
-        
+
+        public decimal TotalPrice()
+        {
+            return Price * Quantity;
+        }
+
     }
 }

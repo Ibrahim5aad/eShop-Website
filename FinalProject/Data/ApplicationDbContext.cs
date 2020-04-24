@@ -15,7 +15,13 @@ namespace FinalProject.Data
             : base(options)
         {
         }
-
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+            builder.Entity<BasketItem>().HasOne(b => b.Basket).WithMany(b => b.Items).OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<OrderItem>().HasOne(b => b.Order).WithMany(b => b.Items).OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<Address>().HasOne(b => b.Order).WithOne(b => b.Address).OnDelete(DeleteBehavior.Cascade);
+        }
         public DbSet<Product> Products { get; set; }
         public DbSet<Basket> Baskets { get; set; }
         public DbSet<Order> Orders { get; set; }

@@ -1,4 +1,5 @@
 ﻿@page
+@inject SignInManager<ApplicationUser> SignInManager
 @model IndexModel
 @{
     ViewData["Title"] = "Basket";
@@ -27,16 +28,16 @@
                 if (item != null)
                 {
                     <article class="esh-basket-item row">
-                        <section class=" col-3 hidden-lg-down">
+                        <section class=" col-3 hidden-lg-down fontincrease">
                             <img class="image w-50 img-thumbnail" src="@item.Product.PictureUrl" />
                             @item.Product.Name
                         </section>
-                        <section style="padding-top: 5%;" class="col-3">$ @item.Price</section>
+                        <section style="padding-top: 5%;" class="col-3 fontincrease">$ @item.Price</section>
                         <section style="padding-top: 5%;" class="col-3">
                             <input type="hidden" name="@("Items[" + i + "].Key")" value="@item.Id" />
-                            <input type="number" width="50" class="form-control" min="0" name="@("Items[" + i + "].Value")" value="@item.Quantity" />
+                            <input type="number" width="50" class="form-control fontincrease" min="0" name="@("Items[" + i + "].Value")" value="@item.Quantity" />
                         </section>
-                        <section style="padding-top: 5%;" class="col-3">$ @item.TotalPrice()</section>
+                        <section style="padding-top: 5%;" class="col-3 fontincrease">$ @item.TotalPrice()</section>
                     </article>
                 }
             }
@@ -48,9 +49,16 @@
                         asp-page-handler="Update">
                     Update
                 </button>
-                <input type="submit"
-                       class="defmargin col-1 btn btn-outline-success"
-                       value="Checkout" name="action" />
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    <input type="submit"
+                           class="defmargin col-1 btn btn-outline-success"
+                           value="Checkout" />
+                }
+                else
+                {
+                    <a class="defmargin nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login to checkout..</a>
+                }
 
             </article>
 
@@ -77,8 +85,12 @@
         }
 
             .defmargin:hover {
-               color: white;
+                color: white;
             }
+
+        .fontincrease {
+            font-size: 15px;
+        }
     </style>
 
 }

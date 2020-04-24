@@ -12,7 +12,7 @@ using FinalProject.Models.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-
+using System.Security.Claims;
 
 namespace FinalProject.Pages.Basket
 {
@@ -66,11 +66,13 @@ namespace FinalProject.Pages.Basket
             SetBasketModel();
         }
 
+
+
         private void SetBasketModel()
         {
             if (_signInManager.IsSignedIn(HttpContext.User))
             {
-                BasketModel = GetOrCreateBasketForUser(User.Identity.Name);
+                BasketModel = GetOrCreateBasketForUser(User.FindFirstValue(ClaimTypes.NameIdentifier));
             }
             else
             {

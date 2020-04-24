@@ -1,4 +1,4 @@
-﻿using System;
+﻿    using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -16,6 +16,7 @@ namespace FinalProject.Models.Entities
         public Product Product { get; set; }
         public decimal Price { get; set; }
 
+        public virtual Basket Basket { get; set; }
         public BasketItem()
         {
 

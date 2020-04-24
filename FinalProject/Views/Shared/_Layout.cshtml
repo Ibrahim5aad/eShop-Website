@@ -1,4 +1,5 @@
 ﻿@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
 
 <!DOCTYPE html>
 <html lang="en">
@@ -225,23 +226,38 @@
                     <li class="nav__item">
                         <a class="nav__link" asp-controller="Home" asp-action="Index">Home</a>
                     </li>
-                    <li class="nav__item dropdown ">
-                        <!-- title -->
-                        <a class="nav__link dropdown__header" href="#">
-                            Products
-                        </a>
-                        <!-- items -->
-                        <div class="dropdown__body">
-                            <ul class=" list">
-                                <li class="list__item">
-                                    <a class="nav__inner-link" href="#">Product Listing</a>
-                                </li>
-                                <li class="list__item">
-                                    <a class="nav__inner-link" asp-controller="Products" asp-action="Add">Add Product</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        <li class="nav__item">
+                            <a class="nav__link" asp-controller="Orders" asp-action="Index">My Orders</a>
+                        </li>
+                    }
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        var user = await UserManager.FindByNameAsync(User.Identity.Name);
+                        var roles = await UserManager.GetRolesAsync(user);
+                        if (roles.Contains("Admin") || roles.Contains("Vendor"))
+                        {
+
+                            <li class="nav__item dropdown ">
+                                <!-- title -->
+                                <a class="nav__link dropdown__header" href="#">
+                                    Products
+                                </a>
+                                <!-- items -->
+                                <div class="dropdown__body">
+                                    <ul class=" list">
+                                        <li class="list__item">
+                                            <a class="nav__inner-link" href="#">Product Listing</a>
+                                        </li>
+                                        <li class="list__item">
+                                            <a class="nav__inner-link" asp-controller="Products" asp-action="Add">Add Product</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                        }
+                    }
                     <li class="nav__item">
                         <a class="nav__link" href="#">Contact Us</a>
                     </li>

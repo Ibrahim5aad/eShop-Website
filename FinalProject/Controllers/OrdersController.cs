@@ -11,6 +11,8 @@ using FinalProject.Core;
 using Microsoft.AspNetCore.Identity;
 using FinalProject.Models.Identity;
 using Microsoft.AspNetCore.Authorization;
+using FinalProject.Models.ViewModels;
+using System.Security.Claims;
 
 namespace FinalProject.Controllers
 {
@@ -28,26 +30,27 @@ namespace FinalProject.Controllers
         }
 
         // GET: Orders
-        public async Task<IActionResult> Index()
+        [Authorize]
+        public IActionResult Index()
         {
-            return View();
+            var orders = _orderRepository.GetAll()
+                .Where(order => order.BuyerId == User.FindFirstValue(ClaimTypes.NameIdentifier))
+                 .Include(order => order.Items)
+                 .Include(order => order.Address);
+            return View(orders);
         }
 
         // GET: Orders/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
-            {
-
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
             var order = _orderRepository.GetAll()
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (order == null)
-            {
-                return NotFound();
-            }
+                                        .Include(order => order.Items)
+                                        .ThenInclude(orderItem => orderItem.Product)
+                                        .FirstOrDefault(m => m.Id == id);
+
+            if (order == null) return NotFound();
 
             return View(order);
         }
@@ -60,21 +63,38 @@ namespace FinalProject.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Order order)
+        [Authorize]
+        public IActionResult AddOrder(OrderViewModel orderViewModel, Dictionary<string, int> items)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest();
             }
-            return RedirectToAction("Index", "Home");
+            var basket = _basketRepository.GetAll()
+                    .Include(basket => basket.Items)
+                    .ThenInclude(item => item.Product)
+                    .FirstOrDefault(basket => basket.BuyerId == orderViewModel.Order.BuyerId);
+
+            var OrderItems = new List<OrderItem>();
+
+            foreach (var item in basket.Items)
+            {
+                if (items.TryGetValue(item.ProductId.ToString(), out var quantity))
+                {
+                    OrderItems.Add(new OrderItem(item.Product.Id, item.Price, quantity));
+                }
+            }
+            orderViewModel.Order.Items = OrderItems;
+            _orderRepository.Add(orderViewModel.Order);
+            _basketRepository.Delete(basket);
+            return View();
         }
 
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
         [Authorize]
         public IActionResult CheckoutBasket(string BuyerId, Dictionary<string, int> items)
         {
+            if (BuyerId == null) RedirectToPage("Basket");
             if (ModelState.IsValid)
             {
                 var basket = _basketRepository.GetAll()
@@ -83,6 +103,7 @@ namespace FinalProject.Controllers
                     .FirstOrDefault(basket => basket.BuyerId == BuyerId);
 
                 var OrderItems = new List<OrderItem>();
+
                 foreach (var item in basket.Items)
                 {
                     if (items.TryGetValue(item.Id.ToString(), out var quantity))
@@ -90,44 +111,23 @@ namespace FinalProject.Controllers
                         OrderItems.Add(new OrderItem(item.Product.Id, item.Price, quantity));
                     }
                 }
-                var order = _orderRepository.Add(new Order()
+                OrderViewModel ovm = new OrderViewModel()
                 {
-                    BuyerId = BuyerId,
-                    Items = OrderItems,
-                    Status = OrderStatus.Pending,
-                    CheckoutDate = DateTime.Now
-                });
-                _orderRepository.Add(order);
-                return View(order);
+                    Order = new Order()
+                    {
+                        BuyerId = BuyerId,
+                        Status = OrderStatus.Pending,
+                        CheckoutDate = DateTime.Now
+                    },
+                    OrderItems = OrderItems
+
+                };
+
+                return View(ovm);
             }
             return BadRequest();
         }
 
-        // GET: Orders/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-            return View();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,BuyerId,Status,CheckoutDate")] Order order)
-        {
-            if (id != order.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            return View(order);
-        }
 
         // GET: Orders/Delete/5
         public async Task<IActionResult> Delete(int? id)
@@ -139,16 +139,6 @@ namespace FinalProject.Controllers
             return View();// order);
         }
 
-        // POST: Orders/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            //var order = await _context.Orders.FindAsync(id);
-            //_context.Orders.Remove(order);
-            //await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
 
         private bool OrderExists(int id)
         {

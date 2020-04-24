@@ -1,36 +1,79 @@
 ﻿@model FinalProject.Models.Entities.Order
-
+@inject SignInManager<ApplicationUser> SignInManager
 @{
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
-
+@{
+    var a = Model;
+    var v = 5;
+}
 <div>
-    <h4>Order</h4>
+    <h4>Order Details</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.BuyerId)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.BuyerId)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Status)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Status)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.CheckoutDate)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.CheckoutDate)
         </dd>
     </dl>
 </div>
+<div class="container">
+
+    <form asp-action="CheckoutBasket" asp-controller="Orders" method="post" class="col card">
+        <article class="esh-basket-titles display-4 card-header row">
+            <section class="col-3">Product</section>
+            <section class="col-3">Price</section>
+            <section class="col-3">Quantity</section>
+            <section class="col-3">Cost</section>
+        </article>
+
+        <input type="hidden" name="BuyerId" value="@Model.BuyerId" />
+
+        @for (int i = 0; i < Model.Items.Count; i++)
+        {
+            var item = Model.Items[i];
+            if (item != null)
+            {
+                <article class="esh-basket-item row">
+                    <section class=" col-3 hidden-lg-down fontincrease">
+                        <img class="image w-50 img-thumbnail" src="@item.Product.PictureUrl" />
+                        @item.Product.Name
+                    </section>
+                    <section style="padding-top: 5%;" class="col-3 fontincrease">$ @item.Price</section>
+                    <section style="padding-top: 5%;" class="col-3 fontincrease"> @item.Quantity</section>
+                    <section style="padding-top: 5%;" class="col-3 fontincrease">$ @item.TotalPrice()</section>
+                </article>
+            }
+        }
+
+    </form>
+
+</div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+
     <a asp-action="Index">Back to List</a>
 </div>
+@section Styles{
+    <style>
+        
+        .fontincrease {
+            font-size: 15px;
+        }
+    </style>
+
+}
