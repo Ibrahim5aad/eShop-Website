@@ -56,6 +56,7 @@ namespace FinalProject
             services.AddControllersWithViews();
             services.AddRazorPages();
             services.AddTransient<IEmailSender, EmailSender>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IBasketRepository, BasketRepository>();
             services.AddScoped<IOrderRepository, OrderRepository>();

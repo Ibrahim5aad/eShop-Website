@@ -32,11 +32,11 @@ namespace FinalProject.Models.Entities
         public virtual List<OrderItem> Items { get; set; }
 
         [NotMapped]
-        public decimal TotalPrice
+        public float TotalPrice
         {
             get
             {
-                decimal total = 0;
+                float total = 0;
                 if(Items != null)
                 {
                     foreach (var item in Items)

@@ -1,0 +1,124 @@
+﻿@model ProdCatViewModel
+@{
+    ViewData["Title"] = "Details";
+    float newPrice = (Model.Product.Price) * (1 - (Model.Product.Sale / 100));
+}
+
+<h1>Details</h1>
+
+<!-- Listing Items -->
+<div class="product-details container">
+    <section class="product-details__main">
+        <!-- images slider -->
+        <div class="add-product__images slider">
+            <div>
+                @if (Model.Product != null)
+                {
+                    <div class="col-8">
+                        <img src="@("~/Images/" + Model.Product.ImageName)" asp-append-version="true" style="border: 1px solid #C0C0C0; max-width:500px; max-height:500px;">
+                    </div>
+                }
+                else
+                {<div class="slider__item active" style="background-image: url(img/products/product-grey-7.jpg)"></div>}
+            </div>
+        </div>
+        <!-- product info -->
+        <div class="product-details__info">
+            <h1>@Model.Product.Name</h1>
+            <div class="product-details__amount">
+                @{if (Model.Product.Sale > 0)
+
+                    {
+                        <del>@(Model.Product.Price)</del>
+                        <span class="lable">@newPrice</span>
+                    }
+                    else
+                    { <span class="lable">@((Model.Product.Price))</span>
+                    }}
+
+            </div>
+            <p class="product-details__desc">
+                @((Model.Product.Details))
+            </p>
+            <div class="product-details__add">
+            <form id="detailform" asp-page="/Basket/Index" class="item-medium-1" method="post">
+                <a class="btn btn--primary" href="#" onclick="document.getElementById('detailform').submit();"> Add to Basket </a>
+                <input type="hidden" asp-for="@Model.Product.Id" name="id" />
+                <input type="hidden" asp-for="@Model.Product.Name" name="name" />
+                <input type="hidden" asp-for="@Model.Product.ImageName" name="imgName" />
+                <input type="hidden" asp-for="@Model.Product.Details" name="details" />
+                <input type="hidden" asp-for="@Model.Product.Price" name="price" />
+                <input type="hidden" asp-for="@Model.Product.Sale" name="sale" />
+            </form>
+            </div>
+            <div class="product-details__meta">
+                Categories: @(Model.Product.Category.Name)
+            </div>
+        </div>
+    </section>
+    <section class="tabs">
+        <div class="tabs__headers">
+            <div class="tabs__header active">
+                Description
+            </div>
+            <div class="tabs__header">
+                Additional Information
+            </div>
+
+        </div>
+        <div class="tabs__bodies">
+            <div class="tabs__body active">
+                <div class="product-details__desc">
+
+                    Categories: @Model.Product.Category.Name
+                    <br />
+                    Details:  @Model.Product.Details
+
+                </div>
+            </div>
+            <div class="tabs__body ">
+                @* will put here the vendor and such *@
+                Vendor:
+            </div>
+
+        </div>
+    </section>
+    <div class="separator"></div>
+    <!-- related products -->
+    <section class="realated-product">
+        <h3>Related <strong>Products </strong></h3>
+        <div class="item-listing__items item-listing--4items">
+            <!-- medium item -->
+            @{ foreach (var item in Model.Products)
+                {
+                    float newPrice2 = (item.Price) * (1 - (item.Sale / 100));
+                        <div class="item-medium-1">
+                            <div>
+                                <div class="col-8">
+                                    <img src="@("~/Images/" + item.ImageName)" asp-append-version="true" style="border: 1px solid #C0C0C0; max-width:250px; max-height:250px;">
+                                </div>
+
+                            </div>
+                            <a asp-action="Details" asp-route-id="@item.Id">
+                                <h4>@item.Name</h4>
+
+                                @if (item.Sale > 0)
+                                {
+                                    <del>@(item.Price)</del>
+                                    <span class="lable">@newPrice2</span>
+                                }
+                                else
+                                { <span class="lable">@((item.Price))</span>
+                                }
+
+                            </a>
+                            <div class="crud-actions">
+                                <a asp-action="Details" asp-route-id="@item.Id"><i class="fa fa-eye"></i></a>
+                            </div>
+                        </div>
+                }
+            }
+        </div>
+    </section>
+</div>
+<!-- footer -->

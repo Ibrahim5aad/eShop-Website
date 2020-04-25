@@ -36,8 +36,8 @@
 
     <form asp-action="CheckoutBasket" asp-controller="Orders" method="post" class="col card">
         <article class="esh-basket-titles display-4 card-header row">
-            <section class="col-3">Product</section>
-            <section class="col-3">Price</section>
+            <section class="col-4">Product</section>
+            <section class="col-2">Price</section>
             <section class="col-3">Quantity</section>
             <section class="col-3">Cost</section>
         </article>
@@ -50,11 +50,11 @@
             if (item != null)
             {
                 <article class="esh-basket-item row">
-                    <section class=" col-3 hidden-lg-down fontincrease">
-                        <img class="image w-50 img-thumbnail" src="@item.Product.PictureUrl" />
+                    <section class=" col-4 hidden-lg-down fontincrease">
+                        <img class="image w-50 img-thumbnail" src="~/Images/@item.Product.ImageName" />
                         @item.Product.Name
                     </section>
-                    <section style="padding-top: 5%;" class="col-3 fontincrease">$ @item.Price</section>
+                    <section style="padding-top: 5%;" class="col-2 fontincrease">$ @item.Price</section>
                     <section style="padding-top: 5%;" class="col-3 fontincrease"> @item.Quantity</section>
                     <section style="padding-top: 5%;" class="col-3 fontincrease">$ @item.TotalPrice()</section>
                 </article>

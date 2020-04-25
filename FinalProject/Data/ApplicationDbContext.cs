@@ -23,6 +23,7 @@ namespace FinalProject.Data
             builder.Entity<Address>().HasOne(b => b.Order).WithOne(b => b.Address).OnDelete(DeleteBehavior.Cascade);
         }
         public DbSet<Product> Products { get; set; }
+        public DbSet<Category> Categories { get; set; }
         public DbSet<Basket> Baskets { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }

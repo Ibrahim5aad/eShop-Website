@@ -18,7 +18,7 @@ namespace FinalProject.Models.Entities
             BuyerId = buyerId;
         }
 
-        public void AddItem(int ProductId, decimal Price, int quantity = 1)
+        public void AddItem(int ProductId, float Price, int quantity = 1)
         {
             if (!Items.Any(i => i.ProductId == ProductId))
             {

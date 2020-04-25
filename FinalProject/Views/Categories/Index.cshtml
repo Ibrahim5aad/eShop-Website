@@ -1,0 +1,57 @@
+﻿@model List<Category>
+@{
+    ViewData["Title"] = "Categories";
+}
+
+<h1>Categories</h1>
+<br />
+
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-info">
+        @TempData["Message"]
+    </div>
+}
+<a asp-action="Create" class="btn btn-primary btn-sm">+ Add new Categories</a>
+<br />
+<br />
+
+<div class="container">
+
+    @if (Model != null && Model.Count > 0)
+    {
+        <table class="table table-borderless table-hover table-striped">
+            <thead class="thead-dark" >
+                     <tr>
+                         <th>Name</th>
+                         <th></th>
+                     </tr>
+
+                </thead>
+
+            <tbody>
+                @foreach (Category item in Model)
+                {
+                    <tr>
+                        <td>@item.Name</td>
+
+                        <td>
+                            <a asp-action="Details" asp-route-id="@item.Id"><i class="fa fa-eye"></i></a>
+                            <a asp-action="Edit" asp-route-id="@item.Id"><i class="fa fa-edit"></i></a>
+                            <a asp-action="Delete" asp-route-id="@item.Id"><i class="far fa-calendar-times"></i></a>
+                        </td>
+
+                    </tr>
+
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="alert alert-warning">
+            No Categories added
+        </div>
+    }
+</div>

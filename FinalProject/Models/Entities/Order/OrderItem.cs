@@ -15,21 +15,20 @@ namespace FinalProject.Models.Entities
         public Product Product { get; set; }
         public int Quantity { get; set; }
         public string PictureUrl { get; set; }
-        public decimal Price { get; set; }
-
+        public float Price { get; set; }
         public Order Order { get; set; }
 
         [ForeignKey("Order")]
         public int OrderId { get; set; }
 
-        public OrderItem(int productId, decimal price, int quantity = 1)
+        public OrderItem(int productId, float price, int quantity = 1)
         {
             ProductId = productId;
             Quantity = quantity;
             Price = price;
         }
 
-        public decimal TotalPrice()
+        public float TotalPrice()
         {
             return Price * Quantity;
         }

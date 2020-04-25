@@ -13,6 +13,14 @@ namespace FinalProject.Data
             int retryForAvailability = retry.Value;
             try
             {
+                if (!context.Categories.Any())
+                {
+                    context.Categories.AddRange(
+                        GetPreconfiguredCategories());
+
+                    await context.SaveChangesAsync();
+                }
+
 
                 if (!context.Products.Any())
                 {
@@ -32,16 +40,29 @@ namespace FinalProject.Data
                 throw;
             }
         }
+        static IEnumerable<Category> GetPreconfiguredCategories()
+        {
+            return new List<Category>()
+            {
+                new Category("Clothes"),
+                new Category("Cups"),
+                new Category("Accessories")
+            };
+        }
         static IEnumerable<Product> GetPreconfiguredItems()
         {
             return new List<Product>()
             {
-                new Product("Blue Sweatshirt", "Small Blue Sweatshirt", 200, 0.6m, "img/products/product-grey-1.jpg"),
-                new Product("Red Sweatshirt", "Red Sweatshirt", 200, 0, "img/products/product-grey-1.jpg"),
-                new Product("Blue Shirt", "Blue Shirt", 150, 0.6m,"img/products/product-grey-1.jpg"),
-                new Product("White Shirt", "Medium Shirt", 300, 0,"img/products/product-grey-1.jpg"),
-                new Product("Heels", "Heels", 400, 0,"img/products/product-grey-1.jpg"),
-                new Product("Training Suit", "Extra Large Training Suit", 350, 0.6m,"img/products/product-grey-1.jpg"),
+                new Product("Black Sweatshirt", "Nice black sweatshirt comes in all sizes.", 300, 20, "1.png", 1),
+                new Product("Blue Sweatshirt", "Nice blue sweatshirt comes in all sizes.", 300, 30, "6.png", 1),
+                new Product("Purple Sweatshirt", "Nice purple sweatshirt comes in all sizes.", 300, 15, "8.png", 1),
+                new Product("White Mug", "White nice looking mug.", 100, 0, "2.png", 2),
+                new Product("White T-Shirt", "White T-Shirt comes in all sizes.", 200, 30,"3.png", 1),
+                new Product("Purple T-Shirt", "Purple T-Shirt comes in all sizes.", 250, 20,"4.png", 1),
+                new Product("Red T-Shirt", "Red T-Shirt comes in all sizes.",200, 20,"7.png", 1),
+                new Product("Red Pin", "Red Pin", 50, 5,"5.png", 3),
+                new Product("White Pin", "White Pin", 50, 5,"11.png", 3),
+                new Product("Purple Pin", "Purple Pin", 50, 10,"10.png", 3),
             };
         }
     }

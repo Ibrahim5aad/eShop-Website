@@ -14,14 +14,14 @@ namespace FinalProject.Models.Entities
 
         [ForeignKey("ProductId")]
         public Product Product { get; set; }
-        public decimal Price { get; set; }
+        public float Price { get; set; }
 
         public virtual Basket Basket { get; set; }
         public BasketItem()
         {
 
         }
-        public BasketItem(int productId, decimal price, int quantity = 1)
+        public BasketItem(int productId, float price, int quantity = 1)
         {
             ProductId = productId;
             Quantity = quantity;
@@ -38,7 +38,7 @@ namespace FinalProject.Models.Entities
             Quantity = quantity;
         }
 
-        public decimal TotalPrice()
+        public float TotalPrice()
         {
             return Price * Quantity;
         }

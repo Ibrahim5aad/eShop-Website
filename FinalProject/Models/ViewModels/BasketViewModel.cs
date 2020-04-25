@@ -12,9 +12,9 @@ namespace FinalProject.Models.ViewModels
         public List<BasketItem> Items { get; set; } = new List<BasketItem>();
         public string BuyerId { get; set; }
 
-        public decimal Total()
+        public float Total()
         {
-            return Math.Round(Items.Sum(x => x.Price * x.Quantity), 2);
+            return (float)Math.Round(Items.Sum(x => x.Price * x.Quantity), 2);
         }
     }
 }

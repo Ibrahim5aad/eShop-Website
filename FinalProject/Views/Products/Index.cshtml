@@ -1,0 +1,67 @@
+﻿@model List<Product>
+@{
+    ViewData["Title"] = "Products";
+}
+
+<h1>Products</h1>
+
+
+<br />
+<a asp-action="Create" class="btn btn-primary">+ Add new Products</a>
+<br />
+<br />
+
+<div class="container">
+    @if (TempData["Message"] != null)
+    {
+        <div class="alert alert-info">
+            @TempData["Message"]
+        </div>
+    }
+
+    @if (Model != null && Model.Count > 0)
+    {
+        <table class="table table-borderless table-hover table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th>Price</th>
+                    <th>Sale Value</th>
+                    <th>Image Title</th>
+
+
+                    <th>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Product item in Model)
+                {
+                    <tr>
+                        <td>@item.Name</td>
+                        <td>@item.Category.Name</td>
+                        <td>@item.Price</td>
+                        <td>@item.Sale</td>
+                        <td>@item.ImageName</td>
+
+
+                        <td>
+                            <a asp-action="Details" asp-route-id="@item.Id"><i class="fa fa-eye"></i></a>
+                            <a asp-action="Edit" asp-route-id="@item.Id"><i class="fa fa-edit"></i></a>
+                            <a asp-action="Delete" asp-route-id="@item.Id"><i class="far fa-calendar-times"></i></a>
+                        </td>
+
+                    </tr>
+
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="alert alert-info">
+            No Products added
+        </div>
+    }
+</div>

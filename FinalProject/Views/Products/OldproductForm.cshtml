@@ -1,0 +1,101 @@
+﻿
+@model ProdCatViewModel
+
+@{
+    string Action;
+    if (Model.Product == null)
+    {
+        Action = "Create";
+        ViewData["Title"] = "Add Product";
+
+    }
+    else
+    {
+        Action = "Edit";
+        ViewData["Title"] = "Edit Product";
+    }
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<br />
+<div class="d-flex p-2 bd-highlight">
+    <section>
+        <div class="row">
+            <div class="col-12">
+                <form method="post" enctype="multipart/form-data">
+                    @if (Model.Product != null)
+                    {
+                        <input asp-for="Product.Id" type="hidden" />
+                    }
+
+                    <div class="form-group">
+                        <label asp-for="Product.Name"> </label>
+                        <input asp-for="Product.Name" class="form-control" />
+                        <span asp-validation-for="Product.Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Product.FK_Category_Id"> </label>
+                        <select asp-for="Product.FK_Category_Id" asp-items="new SelectList(Model.Categories,nameof(Category.Id),nameof(Category.Name)) " class="form-control">
+                            <option value=""></option>
+                        </select>
+                        <span asp-validation-for="Product.FK_Category_Id" class="text-danger" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Product.Details"> </label>
+                        <input asp-for="Product.Details" class="form-control" />
+                        <span asp-validation-for="Product.Details" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Product.Price"> </label>
+                        <input asp-for="Product.Price" class="form-control" />
+                        <span asp-validation-for="Product.Price" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Product.Sale"> </label>
+                        <input asp-for="Product.Sale" class="form-control">
+                        <span asp-validation-for="Product.Sale" class="text-danger"></span>
+                    </div>
+                    @if (Model.Product != null)
+                    {
+                        <div class="form-group">
+                            <label asp-for="Product.ImageName"> </label>
+                            <input asp-for="Product.ImageName" class="form-control" />
+                        </div>
+                    }
+                    @*@if (Model.Product.ImageFile==null)
+                        {
+                            Model.Product.ImageFile = (IFormFile)TempData["oldImage"];
+                        }*@
+                    @*@{
+                        var img = Model.Product.ImageFile;
+                        var a = 5;
+                    }*@
+                    <div class="form-group">
+                        <label asp-for="Product.ImageFile"> </label>
+                        <input asp-for="Product.ImageFile" accept="image/*">
+                        <span asp-validation-for="Product.ImageFile" class="text-danger"></span>
+                    </div>
+
+                    <input type="submit" value=@Action class="btn btn-primary" />
+                    <a asp-action="Index" class="btn btn-light">Back to products list</a>
+
+                </form>
+            </div>
+
+        </div>
+    </section>
+
+    <section>
+        @if (Model.Product != null)
+        {
+            <div class="col-8">
+                <img src="@("~/Images/" + Model.Product.ImageName)" asp-append-version="true">
+            </div>
+        }
+    </section>
+</div>
+@section Scripts
+{<partial name="_ValidationScriptsPartial">
+}
+

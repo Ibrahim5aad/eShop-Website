@@ -1,0 +1,45 @@
+﻿@model Category
+
+@{
+    string Action;
+    if (Model == null)
+    {
+        Action = "Create";
+        ViewData["Title"] = "Add Category";
+
+    }
+    else { Action = "Edit"; 
+    ViewData["Title"] = "Edit Category";
+    }
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<br />
+<div class="row">
+    <div class="col-12">
+        <form method="post">
+            @if (Model != null)
+            {
+                <input asp-for="Id" type="hidden" />
+            }
+
+            <div class="form-group">
+                <label asp-for="Name"> </label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+           
+            <input type="submit" value=@Action class="btn btn-primary" />
+            <a asp-action="Index" class="btn btn-light">Back to categories list</a>
+
+        </form>
+    </div>
+
+</div>
+@section Scripts
+{<partial name="_ValidationScriptsPartial">
+}
+
+
+
