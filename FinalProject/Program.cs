@@ -24,15 +24,18 @@ namespace FinalProject
             using (var scope = host.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
+                var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+
                 var loggerFactory = services.GetRequiredService<ILoggerFactory>();
                 try
                 {
+                    userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+                    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+                    await IdentityDataSeed.SeedAsync(userManager, roleManager);
+                    
                     var context = services.GetRequiredService<ApplicationDbContext>();
                     await ApplicationDbContextSeed.SeedAsync(context);
 
-                    var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
-                    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-                    await IdentityDataSeed.SeedAsync(userManager, roleManager);
                 }
                 catch (Exception ex)
                 {

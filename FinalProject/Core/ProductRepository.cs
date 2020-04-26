@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace FinalProject.Core
@@ -34,7 +35,7 @@ namespace FinalProject.Core
             {
                 product.ImageFile.CopyTo(fileStream);
             }
-
+            
             context.Set<Product>().Add(product);
             return context.SaveChanges() > 0 ? product : null;
         }

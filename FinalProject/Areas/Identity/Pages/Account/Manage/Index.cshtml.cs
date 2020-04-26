@@ -49,6 +49,7 @@ namespace FinalProject.Areas.Identity.Pages.Account.Manage
 
             public string ImageName { get; set; }
 
+            [DisplayName("Profile Picture")]
             public IFormFile ImageFile { get; set; }
 
         }

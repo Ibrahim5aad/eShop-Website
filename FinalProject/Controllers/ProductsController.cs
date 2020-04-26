@@ -12,6 +12,8 @@ using FinalProject.Core;
 using Microsoft.AspNetCore.Http;
 using FinalProject.Models;
 using System.IO;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FinalProject.Controllers
 {
@@ -27,9 +29,13 @@ namespace FinalProject.Controllers
             this.categoryRepository = categoryRepository;
         }
 
+        [Authorize]
         public IActionResult Index()
         {
-            return View(productRepository.GetAll().ToList());
+            var prods = productRepository.GetAll()
+                                        .Where(p => p.VendorId == User.FindFirstValue(ClaimTypes.NameIdentifier))
+                                        .ToList();
+            return View(prods);
         }
 
         #region Details    
@@ -49,6 +55,7 @@ namespace FinalProject.Controllers
 
         #region Create  
         // GET: Products/Create
+        [Authorize]
         public IActionResult Create()
         {
             ProdCatViewModel ProdCatVM = new ProdCatViewModel
@@ -61,10 +68,12 @@ namespace FinalProject.Controllers
         // POST: Products/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public IActionResult Create(Product product)
         {
             if (ModelState.IsValid)
             {
+                product.VendorId = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 productRepository.Add(product);
                 TempData["Message"] = "Product Added successfully";
 
@@ -114,7 +123,7 @@ namespace FinalProject.Controllers
         }
         #endregion
 
-        #region Delect
+        #region Delete
         public IActionResult Delete(int id)
         {
             Product product = productRepository.GetById(id);

@@ -9,10 +9,21 @@
     <section class="filters">
         <!-- search box -->
         <div class="search-box">
-            <input class="search-box__input" placeholder="Search..." type="text" name="txt_search" id="">
-            <button type="submit" class="search-box__btn">
-                <i class="fas fa-search"></i>
-            </button>
+            @using (Html.BeginForm("index", "Home", FormMethod.Get))
+            {
+                <div class="input-group md-form form-sm form-1 pl-0">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text cyan lighten-2" id="basic-text1">
+                            <button type="submit" style="outline:none; border-style: none; color:transparent;">
+                                <i class="fas fa-search text-black-50"
+                                   aria-hidden="true"></i>
+                            </button>
+                        </span>
+                    </div>
+                    <input class="form-control my-0 py-1" type="text" placeholder="Search" aria-label="Search" name="search">
+                </div>
+
+            }
         </div>
         <!-- filter list -->
         <div>
@@ -22,34 +33,12 @@
             <ul class="list list--vr-separator">
                 @foreach (var item in Model.Categories)
                 {
-                    <li class="link list__item"><i class="link__icon fas fa-angle-right"></i>@item.Name</li>
+                    <li class="link list__item"><a asp-controller="Home" asp-action="Index" asp-route-category="@item.Id"> <i class="link__icon fas fa-angle-right"></i>@item.Name</a></li>
 
                 }
             </ul>
         </div>
         <!-- filter tags -->
-        <div>
-            <!-- filter header -->
-            <h5>Tags</h5>
-            <!-- filter tags -->
-            <div class="tags">
-                <span class="tag">Nike</span>
-                <span class="tag">Travel</span>
-                <span class="tag">Sport</span>
-                <span class="tag">Tv</span>
-                <span class="tag">Books</span>
-                <span class="tag">Tech</span>
-                <span class="tag">Addidas</span>
-                <span class="tag">Promo</span>
-                <span class="tag">Reading</span>
-                <span class="tag">Social</span>
-                <span class="tag">New</span>
-                <span class="tag">Special</span>
-                <span class="tag">Food</span>
-                <span class="tag">Used</span>
-            </div>
-        </div>
-        <!-- related items -->
         <div>
             <!-- title -->
             <h5></h5>
@@ -63,15 +52,35 @@
     <section class="item-listing">
         <!-- tools (sorting , change view , exporting) -->
         <div class="item-listing__tools">
-            <select class="form-control" name="" id="">
-                <option value="1">Featured</option>
-                <option value="2">Price low to high</option>
-                <option value="3">Price high to low</option>
-                <option value="4">Name</option>
-            </select>
-            <a class="action-btn" href="#">
-                <i class="fas fa-plus"></i>
-            </a>
+            @{
+                var sort1 = new Dictionary<string, string> { { "sortBy", ViewBag.SortNameParameter } };
+                var sort2 = new Dictionary<string, string> { { "sortBy2", ViewBag.SortPriceParameter } };
+
+            }
+            @using (Html.BeginForm(FormMethod.Post, new { @class = "form-inline" }))
+            {
+                if (ViewBag.SortPriceParameter == "PriceD")
+                {
+                    <a class="action-btn" asp-action="Index3" asp-controller="Home" asp-all-route-data="sort2" name="priceD"> <i class="fas fa-sort-numeric-down-alt" style="color:#FFFFFF;"></i> </a>
+                }
+                else
+                {
+                    <a class="action-btn" asp-action="Index3" asp-controller="Home" asp-all-route-data="sort2" name="priceA"><i class="fas fa-sort-numeric-down" style="color:#FFFFFF;"></i>   </a>
+                }
+                if (ViewBag.SortNameParameter == "NameD")
+                {
+                    <a class="action-btn" asp-action="Index2" asp-controller="Home" asp-all-route-data="sort1" name="nameD"> <i class="fas fa-sort-alpha-down-alt" style="color:#FFFFFF;"></i>  </a>
+                }
+                else
+                {
+                    <a class="action-btn" asp-action="Index2" asp-controller="Home" asp-all-route-data="sort1" name="nameA"><i class="fas fa-sort-alpha-down" style="color:#FFFFFF;"></i>   </a>
+                }
+            }
+
+        </div>
+        <div>
+            <br />
+            <br />
         </div>
         <!-- items -->
         <div class="item-listing__items item-listing--3items">
@@ -87,17 +96,27 @@
         </div>
         <!-- paging -->
         <div class="paging">
+            @{
+                var prevDisabled = !Model.Products.HasPreviousPage ? "disabled" : "";
+                var nextDisabled = !Model.Products.HasNextPage ? "disabled" : "";
+            }
+
             <!-- left arrow -->
             <div class="paging__arrow">
-                <i class="fas fa-angle-left"></i>
+                <a asp-action="Index"
+                   asp-route-pageNumber="@(Model.Products.PageIndex - 1)"
+                   class="btn btn-dark @prevDisabled">
+                    <i class="fas fa-angle-left"></i>
+                </a>
             </div>
-            <!-- page number -->
-            <div class="paging__number active">1</div>
-            <div class="paging__number">2</div>
-            <div class="paging__number">3</div>
+
             <!-- right arrow -->
             <div class="paging__arrow">
-                <i class="fas fa-angle-right"></i>
+                <a asp-action="Index"
+                   asp-route-pageNumber="@(Model.Products.PageIndex + 1)"
+                   class="btn btn-dark @nextDisabled">
+                    <i class="fas fa-angle-right"></i>
+                </a>
             </div>
         </div>
     </section>

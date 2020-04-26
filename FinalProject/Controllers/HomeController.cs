@@ -41,20 +41,85 @@ namespace FinalProject.Controllers
             _signInManager = signInManager;
         }
 
-        public IActionResult Index()
-        {   
-            List<Product> products = _productRepository.GetAll().ToList();
+        public async Task<IActionResult> Index(int? category, int? pageNumber, string search)
+        {
+            IQueryable<Product> products;
+            if (category != null)
+            {
+                products = _productRepository.GetAll()
+                                             .Where(p => p.Name.StartsWith(search) || search == null)
+                                             .Where(p => p.FK_Category_Id == category);
+            }
+            else
+            {
+                products = _productRepository.GetAll()
+                                             .Where(p => p.Name.StartsWith(search) || search == null);
+            }
+            
             List<Category> cats = _categoryRepository.GetAll().ToList();
             HomeViewModel hvm = new HomeViewModel()
             {
-                Products = products,
+                Products = await PaginatedList<Product>.CreateAsync(products, pageNumber ?? 1, 6),
                 Categories = cats
                 
             };
 
             return View(hvm);
         }
+        public async Task<IActionResult> Index2(string sortBy, int? pageNumber)
+        {
+            ViewBag.SortNameParameter = string.IsNullOrEmpty(sortBy) ? "NameD" : "";
 
+            HomeViewModel IndexProdCatVM = new HomeViewModel { };
+            switch (sortBy)
+            {
+                case "NameD":
+                    IndexProdCatVM = new HomeViewModel
+                    {
+
+                        Products = await PaginatedList<Product>.CreateAsync(_productRepository.GetAll().OrderByDescending(p => p.Name), pageNumber ?? 1, 6),
+                        Categories = _categoryRepository.GetAll().ToList(),
+                    };
+                    break;
+
+                default:
+
+                    IndexProdCatVM = new HomeViewModel
+                    {
+
+                        Products = await PaginatedList<Product>.CreateAsync(_productRepository.GetAll().OrderBy(p => p.Name), pageNumber ?? 1, 6),
+                        Categories = _categoryRepository.GetAll().ToList(),
+                    };
+                    break;
+            }
+            return View("Index", IndexProdCatVM);
+        }
+
+        public async Task<IActionResult> Index3(string sortBy2, int? pageNumber)
+        {
+            ViewBag.SortPriceParameter = string.IsNullOrEmpty(sortBy2) ? "PriceD" : "";
+
+            HomeViewModel IndexProdCatVM = new HomeViewModel { };
+            switch (sortBy2)
+            {
+                case "PriceD":
+                    IndexProdCatVM = new HomeViewModel
+                    {
+                        Products = await PaginatedList<Product>.CreateAsync(_productRepository.GetAll().OrderByDescending(p => p.Price), pageNumber ?? 1, 6),
+                        Categories = _categoryRepository.GetAll().ToList(),
+                    };
+                    break;
+                default:
+
+                    IndexProdCatVM = new HomeViewModel
+                    {
+                        Products = await PaginatedList<Product>.CreateAsync(_productRepository.GetAll().OrderBy(p => p.Price), pageNumber ?? 1, 6),
+                        Categories = _categoryRepository.GetAll().ToList(),
+                    };
+                    break;
+            }
+            return View("Index", IndexProdCatVM);
+        }
         public IActionResult Basket()
         {
             Basket basket;

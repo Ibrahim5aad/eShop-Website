@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using FinalProject.Models.Identity;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -44,11 +45,15 @@ namespace FinalProject.Models.Entities
         [MaxLength(100)]
         public string ImageName { get; set; }
 
+        public ApplicationUser Vendor { get; set; }
+
+        [ForeignKey("Vendor")]
+        public string VendorId { get; set; }
         public Product()
         {
-
         }
-        public Product(string name, string discription, float price, float sale, string imgName, int catId)
+
+        public Product(string name, string discription, float price, float sale, string imgName, int catId, string vendorId)
         {
             Name = name;
             Details = discription;
@@ -56,6 +61,7 @@ namespace FinalProject.Models.Entities
             Sale = sale;
             ImageName = imgName;
             FK_Category_Id = catId;
+            VendorId = vendorId;
         }
 
     }

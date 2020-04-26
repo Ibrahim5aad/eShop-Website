@@ -1,21 +1,26 @@
 ﻿@model Basket
 @{
-
-    int count = Model.Items.Sum(i => i.Quantity);
+    int count = 0;
+    if (Model != null || Model?.Items.Count > 0)
+    {
+        count = Model.Items.Sum(i => i.Quantity);
     }
+}
 
-    <div class="basket dropdown">
+<div class="basket dropdown">
 
-        <a class="dropdown__header" href="#" id="cart"><i class="fa fa-shopping-cart"></i> Basket <span class="badge">@count</span></a>
+    <a class="dropdown__header" href="#" id="cart"><i class="fa fa-shopping-cart"></i> Basket <span class="badge">@count</span></a>
 
-        <div class="dropdown__body shopping-cart">
+    <div class="dropdown__body shopping-cart">
+        @if (Model != null && Model?.Items.Count > 0)
+        {
             <div class="shopping-cart-header">
                 <i class="fa fa-shopping-cart cart-icon"></i><span class="badge">@count</span>
                 <div class="shopping-cart-total">
                     <span class="lighter-text">Total:</span>
                     <span class="main-color-text total">$@Model.Total()</span>
                 </div>
-            </div> 
+            </div>
 
             <ul class="shopping-cart-items">
                 @if (Model != null || Model.Items != null)
@@ -35,6 +40,25 @@
 
             </ul>
 
-            <a href="#" class="button">Checkout <i class="fa fa-chevron-right"></i></a>
+            <a asp-action="CheckoutBasket" asp-controller="Orders" class="button">Checkout <i class="fa fa-chevron-right"></i></a>
+        }
+        else
+        {
+    <div>
+        <div class="shopping-cart-header">
+            <i class="fa fa-shopping-cart cart-icon"></i><span class="badge">@count</span>
+            <div class="shopping-cart-total">
+                <span class="lighter-text">Total:</span>
+                <span class="main-color-text total">$0</span>
+            </div>
         </div>
+        <ul class="shopping-cart-items">
+            <li>
+                Basket is empty..
+
+            </li>
+        </ul>
     </div>
+        }
+    </div>
+</div>

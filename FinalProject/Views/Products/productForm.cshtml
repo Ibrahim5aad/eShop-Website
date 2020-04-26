@@ -27,13 +27,13 @@
     <form method="post" enctype="multipart/form-data">
         <div class="d-flex">
             <div class="add-product__images slider">
-                <div class="add-product__image-actions">
-                    <div class="add-product__image-action">
-                        <a href="#"><i class="fas fa-plus-square"></i></a>
-                        <a href="#"><i class="fas fa-edit"></i></a>
-                        <a href="#"><i class="fas fa-trash-alt"></i></a>
-                    </div>
-                </div>
+                @*<div class="add-product__image-actions">
+                        <div class="add-product__image-action">
+                            <a href="#"><i class="fas fa-plus-square"></i></a>
+                            <a href="#"><i class="fas fa-edit"></i></a>
+                            <a href="#"><i class="fas fa-trash-alt"></i></a>
+                        </div>
+                    </div>*@
                 <div class="slider__items">
                     @if (Model.Product != null)
                     {
@@ -42,7 +42,11 @@
                         </div>
                     }
                     else
-                    {<div class="slider__item active" style="background-image: url(img/products/product-grey-7.jpg)"></div>}
+                    {
+                <div class="col-8">
+                    <img src="~/Products/placeholder.jpg" asp-append-version="true" style="border: 1px solid #C0C0C0; max-width:500px; max-height:500px;">
+                </div>
+                    }
                 </div>
             </div>
             <div class="add-product__data">
@@ -94,67 +98,6 @@
                             <span asp-validation-for="Product.ImageFile" class="text-danger"></span>
                         </div>
                     </section>
-                    <div class="taged-textbox form-group">
-                        <label class="taged-textbox__lable" for="">Tags</label>
-                        <div class="taged-textbox__data">
-                            <div class="taged-textbox__tags">
-                                <div class="taged-textbox__tag">
-                                    <span>tag1</span><a href="#" class="taged-textbox__remove">
-                                        <i class="fas fa-times"></i>
-                                    </a>
-                                </div>
-                                <div class="taged-textbox__tag">
-                                    <span>tag2</span><a href="#" class="taged-textbox__remove">
-                                        <i class="fas fa-times"></i>
-                                    </a>
-                                </div>
-                                <div class="taged-textbox__tag">
-                                    <span>tag3</span><a href="#" class="taged-textbox__remove">
-                                        <i class="fas fa-times"></i>
-                                    </a>
-                                </div>
-                                <div class="taged-textbox__tag">
-                                    <span>tag4</span><a href="#" class="taged-textbox__remove">
-                                        <i class="fas fa-times"></i>
-                                    </a>
-                                </div>
-                                <div class="taged-textbox__tag">
-                                    <span>tag5</span><a href="#" class="taged-textbox__remove">
-                                        <i class="fas fa-times"></i>
-                                    </a>
-                                </div>
-                                <div class="taged-textbox__tag">
-                                    <span>tag6</span><a href="#" class="taged-textbox__remove">
-                                        <i class="fas fa-times"></i>
-                                    </a>
-                                </div>
-                                <div class="taged-textbox__tag">
-                                    <span>tag7</span><a href="#" class="taged-textbox__remove">
-                                        <i class="fas fa-times"></i>
-                                    </a>
-                                </div>
-                                <div class="taged-textbox__tag">
-                                    <span>tag8</span><a href="#" class="taged-textbox__remove">
-                                        <i class="fas fa-times"></i>
-                                    </a>
-                                </div>
-                                <div class="taged-textbox__tag">
-                                    <span>tag9</span><a href="#" class="taged-textbox__remove">
-                                        <i class="fas fa-times"></i>
-                                    </a>
-                                </div>
-                                <div class="taged-textbox__tag">
-                                    <span>tag10</span><a class="taged-textbox__remove">
-                                        <i class="fas fa-times"></i>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="taged-textbox__clear">
-                                <a href="#"><i class="fas fa-times"></i></a>
-                            </div>
-                        </div>
-                        <input class="taged-textbox__textbox form-control" type="text" name="" id="">
-                    </div>
 
                     <div class="add-product__actions">
                         <input type="submit" value=@Action class="btn btn-primary" />
@@ -169,11 +112,11 @@
 @section Scripts
 {
     <partial name="_ValidationScriptsPartial">
-    <script>
-        $("a").click(function () {
-            $("#imageBox").html("< img src = ' + this.href + ' > ");
+        <script>
+            $("a").click(function () {
+                $("#imageBox").html("< img src = ' + this.href + ' > ");
 
-                    });
-    </script>
+            });
+        </script>
 
 }

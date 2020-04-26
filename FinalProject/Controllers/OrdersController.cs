@@ -101,6 +101,12 @@ namespace FinalProject.Controllers
                     .Include(basket => basket.Items)
                     .ThenInclude(item => item.Product)
                     .FirstOrDefault(basket => basket.BuyerId == BuyerId);
+    
+                if(basket == null)
+                {
+                    basket = new Models.Entities.Basket(User.FindFirstValue(ClaimTypes.NameIdentifier));
+                    _basketRepository.Add(basket);
+                }
 
                 var OrderItems = new List<OrderItem>();
 

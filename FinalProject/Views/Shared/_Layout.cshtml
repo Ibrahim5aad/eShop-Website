@@ -11,6 +11,7 @@
     <title>@ViewData["Title"]</title>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
           crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet" />>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="~/css/mystyle.min.css" />
@@ -190,7 +191,7 @@
                 <ul class="nav__items list list--hr">
                     <!-- items -->
                     <li class="nav__item">
-                        <a class="nav__link" asp-controller="Home" asp-action="Index">Home</a>
+                        <a class="nav__link" asp-controller="Home" asp-action="Index" asp-route-id="">Home</a>
                     </li>
                     @if (SignInManager.IsSignedIn(User))
                     {
@@ -246,7 +247,7 @@
                         }
                     }
                     <li class="nav__item">
-                        <a class="nav__link" href="#">Contact Us</a>
+                        <a class="nav__link" asp-controller="Home" asp-action="ContactUs">Contact Us</a>
                     </li>
                     <li class="nav__item">
                         <a class="nav__link" asp-controller="Home" asp-action="AboutUs">About Us</a>
