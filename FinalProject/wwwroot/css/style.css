@@ -721,6 +721,27 @@ strong {
   top: 6.2rem;
   transition: all .2s ease-out; }
 
+
+.dropdown > .dropdown__body {
+    display: flex;
+    visibility: hidden;
+    top: 8rem;
+}
+
+.dropdown:hover > .dropdown__body {
+    visibility: visible;
+    top: 3.5rem;
+    transition: all .2s ease-out;
+    background-color: white;
+}
+
+.basket.dropdown:hover > .dropdown__body {
+    visibility: visible;
+    top: 2rem;
+    transition: all .2s ease-out;
+    background-color: white;
+}
+
 .nav__link {
     text-transform: uppercase;
     color: #444;

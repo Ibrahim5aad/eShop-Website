@@ -3,12 +3,12 @@
 <form id="form @Model.Id" asp-page="/Basket/Index" class="item-medium-1" method="post">
     @if (Model.Sale != 0)
     {<div class="item-medium-1__alert">Sale</div>}
-    <div class="item-medium-1__image image" style="background-image: url(Images/@Model.ImageName)">
+    <div class="item-medium-1__image image" style="background-image: url(Products/@Model.ImageName)">
         <a id="formsubmit" class="item-medium-1__action" href="#" onclick="document.getElementById('form @Model.Id').submit();"> Add to Basket </a>
     </div>
 
     <a href="#">
-        <h4>@Model.Name</h4>
+        <h4 style="text-align: left;">@Model.Name</h4>
         <div class="flex-row">
             <div>
                 @if (Model.Sale != 0)

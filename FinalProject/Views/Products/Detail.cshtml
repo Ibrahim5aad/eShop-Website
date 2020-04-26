@@ -15,7 +15,7 @@
                 @if (Model.Product != null)
                 {
                     <div class="col-8">
-                        <img src="@("~/Images/" + Model.Product.ImageName)" asp-append-version="true" style="border: 1px solid #C0C0C0; max-width:500px; max-height:500px;">
+                        <img src="@("~/Products/" + Model.Product.ImageName)" asp-append-version="true" style="border: 1px solid #C0C0C0; max-width:500px; max-height:500px;">
                     </div>
                 }
                 else
@@ -29,11 +29,11 @@
                 @{if (Model.Product.Sale > 0)
 
                     {
-                        <del>@(Model.Product.Price)</del>
-                        <span class="lable">@newPrice</span>
+                        <del>$@(Model.Product.Price)</del>
+                        <span class="lable">$@newPrice</span>
                     }
                     else
-                    { <span class="lable">@((Model.Product.Price))</span>
+                    { <span class="lable">$@((Model.Product.Price))</span>
                     }}
 
             </div>
@@ -95,7 +95,7 @@
                         <div class="item-medium-1">
                             <div>
                                 <div class="col-8">
-                                    <img src="@("~/Images/" + item.ImageName)" asp-append-version="true" style="border: 1px solid #C0C0C0; max-width:250px; max-height:250px;">
+                                    <img src="@("~/Products/" + item.ImageName)" asp-append-version="true" style="border: 1px solid #C0C0C0; max-width:250px; max-height:250px;">
                                 </div>
 
                             </div>
@@ -104,11 +104,11 @@
 
                                 @if (item.Sale > 0)
                                 {
-                                    <del>@(item.Price)</del>
-                                    <span class="lable">@newPrice2</span>
+                                    <del>$@(item.Price)</del>
+                                    <span class="lable">$@newPrice2</span>
                                 }
                                 else
-                                { <span class="lable">@((item.Price))</span>
+                                { <span class="lable">$@((item.Price))</span>
                                 }
 
                             </a>

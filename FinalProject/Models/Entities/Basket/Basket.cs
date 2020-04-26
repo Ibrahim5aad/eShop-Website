@@ -34,9 +34,9 @@ namespace FinalProject.Models.Entities
             _items.RemoveAll(i => i.Quantity == 0);
         }
 
-        public void SetNewBuyerId(string buyerId)
+        public float Total()
         {
-            BuyerId = buyerId;
+            return (float)Math.Round(Items.Sum(x => x.Price * x.Quantity), 2);
         }
     }
 }

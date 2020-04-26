@@ -43,6 +43,7 @@ namespace FinalProject.Models.Entities
         public IFormFile ImageFile { get; set; }
         [MaxLength(100)]
         public string ImageName { get; set; }
+
         public Product()
         {
 

@@ -2,70 +2,217 @@
 for details on configuring this project to bundle and minify static web assets. */
 
 a.navbar-brand {
-  white-space: normal;
-  text-align: center;
-  word-break: break-all;
+    white-space: normal;
+    text-align: center;
+    word-break: break-all;
 }
 
 /* Provide sufficient contrast against white background */
 a {
-  color: #0366d6;
+    color: #0366d6;
 }
 
 .btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
 }
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
 }
 
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
+
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 .border-top {
-  border-top: 1px solid #e5e5e5;
+    border-top: 1px solid #e5e5e5;
 }
+
 .border-bottom {
-  border-bottom: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
 }
 
 .box-shadow {
-  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
 }
 
 button.accept-policy {
-  font-size: 1rem;
-  line-height: inherit;
+    font-size: 1rem;
+    line-height: inherit;
 }
 
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
 }
+
 .footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  white-space: nowrap;
-  line-height: 60px; /* Vertically center the text there */
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px; /* Vertically center the text there */
+}
+
+.lighter-text {
+    color: #ABB0BE;
+}
+
+.main-color-text {
+    color: #00c0cb;
+}
+
+/*.container {
+    margin: auto;
+    width: 80%;
+}*/
+
+
+.badge {
+    background-color: red;
+    border-radius: 10px;
+    color: white;
+    display: inline-block;
+    font-size: 12px;
+    line-height: 1;
+    padding: 3px 7px;
+    text-align: center;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+.shopping-cart {
+    background: white;
+    width: 320px;
+    position: absolute;
+    top: 30px;
+    right: -10px;
+    border-radius: 3px;
+    padding: 20px;
+
+}
+
+    .shopping-cart .active {
+        opacity: 1;
+        -webkit-transform-origin: right top 0;
+        -webkit-transform: scale(1);
+        transform-origin: right top 0;
+        transform: scale(1);
+    }
+
+.shopping-cart-header {
+    border-bottom: 1px solid #E8E8E8;
+    padding-bottom: 15px;
+}
+
+    .shopping-cart-header .shopping-cart-total {
+        float: right;
+    }
+
+
+.shopping-cart-items {
+    padding-top: 20px;
+}
+
+    .shopping-cart-items li {
+        margin-bottom: 18px;
+    }
+
+    .shopping-cart-items img {
+        float: left;
+        margin-right: 12px;
+        max-width: 70px;
+        max-height: 70px;
+    }
+
+    .shopping-cart-items .item-name {
+        display: block;
+        font-size: 16px;
+    }
+
+    .shopping-cart-items .item-detail {
+        display: block;
+        font-size: 12px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+
+
+    .shopping-cart-items .item-price {
+        color: #00c0cb;
+        margin-right: 8px;
+    }
+
+    .shopping-cart-items .item-quantity {
+        color: #ABB0BE;
+    }
+
+
+
+.shopping-cart:after {
+    bottom: 100%;
+    left: 89%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+    border-bottom-color: white;
+    border-width: 8px;
+    margin-left: -8px;
+}
+
+.cart-icon {
+    color: #515783;
+    font-size: 24px;
+    margin-right: 7px;
+    float: left;
+}
+
+.button {
+    background: #f8770c;
+    color: white;
+    text-align: center;
+    padding: 12px;
+    text-decoration: none;
+    display: block;
+    border-radius: 3px;
+    font-size: 16px;
+    margin: 25px 0 15px 0;
+    text-transform: uppercase;
+}
+
+    .button:hover {
+        background: #f8770c;
+    }
+
+.button i {
+    padding-left: 5px;
+}
+
+.clearfix:after {
+    content: "";
+    display: table;
+    clear: both;
 }

@@ -17,6 +17,11 @@ namespace FinalProject.Models.Entities
 
         public List<Product> Products { get; set; }
 
+        public Category()
+        {
+
+        }
+
         public Category(string name)
         {
             Name = name;

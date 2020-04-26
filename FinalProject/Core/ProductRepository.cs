@@ -29,7 +29,7 @@ namespace FinalProject.Core
             string fileName = Path.GetFileNameWithoutExtension(product.ImageFile.FileName);
             string extension = Path.GetExtension(product.ImageFile.FileName);
             product.ImageName = fileName = fileName + DateTime.Now.ToString("yymmddssfff") + extension;
-            string path = Path.Combine(wwwRootPath + "/Images/" + fileName);
+            string path = Path.Combine(wwwRootPath + "/Products/" + fileName);
             using (var fileStream = new FileStream(path, FileMode.Create))
             {
                 product.ImageFile.CopyTo(fileStream);
@@ -43,7 +43,7 @@ namespace FinalProject.Core
         public bool Delete(Product product)
         {
             // deleting image from wwwroot
-            var ImagePath = Path.Combine(host.WebRootPath, "Images", product.ImageName);
+            var ImagePath = Path.Combine(host.WebRootPath, "Products", product.ImageName);
 
             if (System.IO.File.Exists(ImagePath))
             {
@@ -82,7 +82,7 @@ namespace FinalProject.Core
             }
             else
             {
-                var ImagePath = Path.Combine(host.WebRootPath, "Images", product.ImageName);
+                var ImagePath = Path.Combine(host.WebRootPath, "Products", product.ImageName);
 
                 if (System.IO.File.Exists(ImagePath))
                 {

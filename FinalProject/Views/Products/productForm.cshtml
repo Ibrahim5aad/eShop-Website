@@ -38,7 +38,7 @@
                     @if (Model.Product != null)
                     {
                         <div class="col-8">
-                            <img src="@("~/Images/" + Model.Product.ImageName)" asp-append-version="true" style="border: 1px solid #C0C0C0; max-width:500px; max-height:500px;">
+                            <img src="@("~/Products/" + Model.Product.ImageName)" asp-append-version="true" style="border: 1px solid #C0C0C0; max-width:500px; max-height:500px;">
                         </div>
                     }
                     else
@@ -90,7 +90,7 @@
                         }
                         <div class="form-group">
                             <label asp-for="Product.ImageFile"> </label>
-                            <input asp-for="Product.ImageFile" accept="image/*">
+                            <input asp-for="Product.ImageFile" height="45" class="form-control" accept="image/*">
                             <span asp-validation-for="Product.ImageFile" class="text-danger"></span>
                         </div>
                     </section>
@@ -167,5 +167,13 @@
 </div>
 
 @section Scripts
-{<partial name="_ValidationScriptsPartial">
+{
+    <partial name="_ValidationScriptsPartial">
+    <script>
+        $("a").click(function () {
+            $("#imageBox").html("< img src = ' + this.href + ' > ");
+
+                    });
+    </script>
+
 }
